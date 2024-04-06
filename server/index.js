@@ -26,12 +26,14 @@ app.use(cors(corsConfig));
 //     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 //   });
-
-const port = process.env.PORT || 8700;
+//process.env.PORT ||
+const port = 8700;
+//const mongoDBURL = process.env.MONGO_URL;
+const mongoDBURL ='mongodb+srv://meghanareddyin:gameskraft@gameskraft.ocpeeis.mongodb.net/?retryWrites=true&w=majority&appName=gameskraft';
 
 const connect = () => {
     mongoose.set('strictQuery', true);
-    mongoose.connect(process.env.MONGO_URL).then(() => {
+    mongoose.connect(mongoDBURL).then(() => {
         console.log('MongoDB connected');
     }).catch((err) => {
         console.log(err);

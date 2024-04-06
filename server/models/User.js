@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -18,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     },
     img: {
         type: String,
-        default: "",
+        default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
     },
     googleSignIn:{
         type: Boolean,
@@ -34,9 +35,9 @@ const UserSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "Podcasts",
         default: [],
-    }
-},
-    { timestamps: true }
+    },
+    
+      { timestamps: true }
 );
 
 export default mongoose.model("User", UserSchema);

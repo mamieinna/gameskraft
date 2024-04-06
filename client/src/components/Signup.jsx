@@ -128,6 +128,60 @@ import { closeSignin, openSignin } from "../redux/setSigninSlice";
     color: ${({ theme }) => theme.primary};
   `;
   
+
+
+
+  const DropdownContainer = styled.div`
+  position: relative;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid ${({ theme }) => theme.text_secondary};
+  color: ${({ theme }) => theme.text_secondary};
+  margin: 3px 20px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  padding: 0px 14px;
+`;
+
+const Select = styled.select`
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  width: 100%;
+  appearance: none;
+  &::placeholder {
+    color: #b1b2b3;
+  }
+`;
+
+const DropdownList = styled.ul`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+`;
+
+const DropdownItem = styled.li`
+  padding: 8px 16px;
+  cursor: pointer;
+`;
+
+const Checkbox = styled.input`
+  margin-right: 8px;
+`;
+
+  
   const Error = styled.div`
     color: red;
     font-size: 10px;
@@ -151,6 +205,28 @@ const SignUp = ({ setSignUpOpen, setSignInOpen }) => {
     const [credentialError, setcredentialError] = useState("");
     const [passwordCorrect, setPasswordCorrect] = useState(false);
     const [nameCorrect, setNameCorrect] = useState(false);
+    // const [gameGenre, gameGenre] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOptionClick = (option) => {
+    const selectedIndex = selectedOptions.indexOf(option);
+    let newSelectedOptions = [...selectedOptions];
+
+    if (selectedIndex === -1) {
+      newSelectedOptions.push(option);
+    } else {
+      newSelectedOptions.splice(selectedIndex, 1);
+    }
+
+    setSelectedOptions(newSelectedOptions);
+  };
+
+
     const [values, setValues] = useState({
       password: "",
       showPassword: false,
@@ -158,6 +234,11 @@ const SignUp = ({ setSignUpOpen, setSignInOpen }) => {
   
     const [otpSent, setOtpSent] = useState(false);
     const [otpVerified, setOtpVerified] = useState(false);
+    const [gameOption, setGameOption] = useState('');
+
+  const handleSelectChange = (event) => {
+    gameOption(event.target.value);
+  };
   
     const dispatch = useDispatch();
   
@@ -427,6 +508,64 @@ const SignUp = ({ setSignUpOpen, setSignInOpen }) => {
                   </IconButton>
                 </OutlinedBox>
                 <Error error={credentialError}>{credentialError}</Error>
+                
+                  <DropdownContainer>
+                  <Person
+                    sx={{ fontSize: "20px" }}
+                    style={{ paddingRight: "12px" }}
+                  />
+      <Select
+        value={selectedOptions.join(', ')}
+        onChange={() => {}}
+        onClick={toggleDropdown}
+        placeholder="Select options..."
+      />
+      <DropdownList isOpen={isOpen}>
+        <DropdownItem onClick={() => handleOptionClick('Option 1')}>
+          <Checkbox
+            type="checkbox"
+            checked={selectedOptions.includes('Option 1')}
+            readOnly
+          />
+          Option 1
+        </DropdownItem>
+        <DropdownItem onClick={() => handleOptionClick('Option 2')}>
+          <Checkbox
+            type="checkbox"
+            checked={selectedOptions.includes('Option 2')}
+            readOnly
+          />
+          Option 2
+        </DropdownItem>
+        <DropdownItem onClick={() => handleOptionClick('Option 3')}>
+          <Checkbox
+            type="checkbox"
+            checked={selectedOptions.includes('Option 3')}
+            readOnly
+          />
+          Option 3
+        </DropdownItem>
+        <DropdownItem onClick={() => handleOptionClick('Option 4')}>
+          <Checkbox
+            type="checkbox"
+            checked={selectedOptions.includes('Option 4')}
+            readOnly
+          />
+          Option 4
+        </DropdownItem>
+      </DropdownList>
+    </DropdownContainer>
+    
+                  {/* <DropdownContainer>
+      <Select value={gameOption} onChange={handleSelectChange}>
+        <Option value="">Select an option...</Option>
+        <Option value="option1">Option 1</Option>
+        <Option value="option2">Option 2</Option>
+        <Option value="option3">Option 3</Option>
+        <Option value="option4">Option 4</Option>
+      </Select>
+    </DropdownContainer> */}
+               
                 <OutlinedBox
                   button={true}
                   activeButton={!disabled}
